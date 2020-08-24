@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "@/views/Home.vue"
+import Home from "@/views/Home.vue";
 
 Vue.use(VueRouter);
 
@@ -18,7 +18,8 @@ const routes = [
   {
     path: "/Hi-scores",
     name: "HiScores",
-    component: () => import(/* webpackChunkName: 'Hi-Scores' */"../views/HiScores")
+    component: () =>
+      import(/* webpackChunkName: 'Hi-Scores' */ "../views/HiScores")
   }
 ];
 
