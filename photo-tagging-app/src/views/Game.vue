@@ -72,38 +72,36 @@ export default {
       console.log([this.imgLeft, this.imgTop]);
     },
     searchBox(e) {
-      let characters = ["Waldo", "Odlaw", "Wenda", "Wizard"];
-      if (document.querySelector(".searchBox")) {
+      let characters = ["Who is it?", "Waldo", "Odlaw", "Wenda", "Wizard"];
+      if (document.querySelector(".searchBoxContainer")) {
         this.removeSearchBox();
       }
       let searchBoxContainer = document.createElement("div");
-      let searchBox = document.createElement("div");
-      let buttonBox = document.createElement("div");
+      let box = document.createElement("div");
+      let characterOptions = document.createElement("select");
       let image = document.querySelector(".img-container");
       this.imgLeft = e.clientX;
       this.imgTop = e.clientY;
       searchBoxContainer.setAttribute("class", "searchBoxContainer");
       searchBoxContainer.setAttribute(
         "style",
-        `display: flex; flex-direction: column; position: absolute; left: ${this
-          .imgLeft - 50}px; top: ${this.imgTop - 50}px;`
+        `display: flex; position: absolute; left: ${this.imgLeft -
+          50}px; top: ${this.imgTop - 50}px;`
       );
-      searchBox.setAttribute("class", "searchBox");
-      searchBox.setAttribute(
+      box.setAttribute("class", "box");
+      box.setAttribute(
         "style",
         "width: 100px; height: 100px; border: 5px solid black;"
       );
-      buttonBox.setAttribute("class", "buttonBox");
-      buttonBox.setAttribute("style", "display: flex; flex-direction: column;");
+      characterOptions.setAttribute("style", "height: 20px;");
       for (let i = 0; i < characters.length; i++) {
-        let button = document.createElement("button");
-        button.setAttribute("class", "characterButton");
-        button.setAttribute("style", ``);
-        button.innerHTML = characters[i];
-        buttonBox.append(button);
+        let option = document.createElement("option");
+        option.setAttribute("value", `${characters[i]}`);
+        option.innerHTML = characters[i];
+        characterOptions.append(option);
       }
-      searchBoxContainer.append(searchBox);
-      searchBoxContainer.append(buttonBox);
+      searchBoxContainer.append(box);
+      searchBoxContainer.append(characterOptions);
       image.append(searchBoxContainer);
     },
     removeSearchBox() {
