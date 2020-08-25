@@ -62,16 +62,34 @@ export default {
         }
       }
     },
-    getPosition(e) {
+    verifyPosition() {
       //Waldo coordinates: [ "2170px", "18px" ] [ "2212px", "57px" ]
-      //Wizard coordinates:[824, 231] [894, 296px]
+      //let Wizard = [[824, 231], [894, 296]];
       //Wendy coordinates: [819, 578] [848, 605px]
       //odlaw coordinates: [ "2095px", "402px" ] [ "2131px", "443px" ]
-      this.imgLeft = `${e.clientX}px`;
-      this.imgTop = `${e.clientY}px`;
-      console.log([this.imgLeft, this.imgTop]);
+      let mousePosition = [this.imgLeft, this.imgTop]; //864, 564, center of wizardish
+      let optionValue = document.querySelector("select").value;
+      let foundCharacter = document.createElement("div");
+      let image = document.querySelector(".img-container");
+      console.log(mousePosition[0]);
+      console.log(mousePosition[1]);
+      if (
+        mousePosition[0] > 830 &&
+        mousePosition[0] < 870 &&
+        mousePosition[1] > 480 &&
+        mousePosition[1] < 590
+      ) {
+        if (optionValue === "Wizard") {
+          foundCharacter.classList.add("foundCharacter");
+          foundCharacter.setAttribute("style", "left: 864px; top: 564px");
+          image.append(foundCharacter);
+        } else {
+          console.log(optionValue);
+        }
+      }
     },
     searchBox(e) {
+      //removes any search boxes on the image, then remakes them on a new click position
       let characters = ["Who is it?", "Waldo", "Odlaw", "Wenda", "Wizard"];
       if (document.querySelector(".searchBoxContainer")) {
         this.removeSearchBox();
@@ -103,6 +121,8 @@ export default {
       searchBoxContainer.append(box);
       searchBoxContainer.append(characterOptions);
       image.append(searchBoxContainer);
+      //watch for changes on dropdown and call the function
+      document.querySelector("select").onchange = this.verifyPosition;
     },
     removeSearchBox() {
       let searchBoxContainer = document.querySelector(".searchBoxContainer");
@@ -131,5 +151,12 @@ export default {
   max-width: 100%;
   max-height: 100%;
   height: auto;
+}
+
+.foundCharacter {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 5px solid green;
 }
 </style>
