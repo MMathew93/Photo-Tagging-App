@@ -5,7 +5,6 @@
       <router-link to="/" tag="button">
         Back to Main Page
       </router-link>
-      <router-view></router-view>
     </div>
   </div>
 </template>
