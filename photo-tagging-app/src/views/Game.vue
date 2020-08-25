@@ -8,7 +8,7 @@
         Quit
       </router-link>
     </div>
-    <div class="img-container">
+     <div class="img-container">
       <img class='waldo-img' src="../assets/84732656.jpg" alt="Where is Waldo Page" @click="searchBox"/>
     </div>
   </div>
@@ -65,26 +65,30 @@ export default {
       console.log([this.imgLeft, this.imgTop]);
     },
     searchBox(e) {
-      if(document.querySelector('.searchBox')) {
+      if (document.querySelector(".searchBox")) {
         this.removeSearchBox()
       }
-      let searchBox = document.createElement('div');
-      let image = document.querySelector('.img-container')
+      let searchBox = document.createElement("div");
+      let image = document.querySelector(".img-container");
       this.imgLeft = e.clientX;
       this.imgTop = e.clientY;
-      searchBox.setAttribute('class', 'searchBox')
-      searchBox.setAttribute('style', `position: absolute; left: ${this.imgLeft - 50}px; top: ${this.imgTop - 50}px; width: 100px; height: 100px; border: 5px solid black;`)
+      searchBox.setAttribute("class", "searchBox");
+      searchBox.setAttribute(
+        "style",
+        `position: absolute; left: ${this.imgLeft - 50}px; top: ${this.imgTop -
+          50}px; width: 100px; height: 100px; border: 5px solid black;`
+      );
       image.append(searchBox)
     },
     removeSearchBox() {
-      let searchBox = document.querySelector('.searchBox');
-      let image = document.querySelector('.img-container')
+      let searchBox = document.querySelector(".searchBox");
+      let image = document.querySelector(".img-container");
       image.removeChild(searchBox)
     }
   },
   created: function() {
-      window.setInterval(this.stopWatch, 1000);
-    }
+    window.setInterval(this.stopWatch, 1000);
+  }
 };
 </script>
 
