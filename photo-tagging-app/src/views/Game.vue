@@ -2,14 +2,21 @@
   <div class="game">
     <div class="header">
       <div class="timerDisplay">
-        {{ hoursTenths }}{{ hours }}:{{ minutesTenths }}{{ minutes }}:{{ secondsTenths }}{{ seconds }}
+        {{ hoursTenths }}{{ hours }}:{{ minutesTenths }}{{ minutes }}:{{
+          secondsTenths
+        }}{{ seconds }}
       </div>
       <router-link to="/" tag="button">
         Quit
       </router-link>
     </div>
-     <div class="img-container">
-      <img class='waldo-img' src="../assets/84732656.jpg" alt="Where is Waldo Page" @click="searchBox"/>
+    <div class="img-container">
+      <img
+        class="waldo-img"
+        src="../assets/84732656.jpg"
+        alt="Where is Waldo Page"
+        @click="searchBox"
+      />
     </div>
   </div>
 </template>
@@ -65,25 +72,44 @@ export default {
       console.log([this.imgLeft, this.imgTop]);
     },
     searchBox(e) {
+      let characters = ["Waldo", "Odlaw", "Wenda", "Wizard"];
       if (document.querySelector(".searchBox")) {
-        this.removeSearchBox()
+        this.removeSearchBox();
       }
+      let searchBoxContainer = document.createElement("div");
       let searchBox = document.createElement("div");
+      let buttonBox = document.createElement("div");
       let image = document.querySelector(".img-container");
       this.imgLeft = e.clientX;
       this.imgTop = e.clientY;
+      searchBoxContainer.setAttribute("class", "searchBoxContainer");
+      searchBoxContainer.setAttribute(
+        "style",
+        `display: flex; flex-direction: column; position: absolute; left: ${this
+          .imgLeft - 50}px; top: ${this.imgTop - 50}px;`
+      );
       searchBox.setAttribute("class", "searchBox");
       searchBox.setAttribute(
         "style",
-        `position: absolute; left: ${this.imgLeft - 50}px; top: ${this.imgTop -
-          50}px; width: 100px; height: 100px; border: 5px solid black;`
+        "width: 100px; height: 100px; border: 5px solid black;"
       );
-      image.append(searchBox)
+      buttonBox.setAttribute("class", "buttonBox");
+      buttonBox.setAttribute("style", "display: flex; flex-direction: column;");
+      for (let i = 0; i < characters.length; i++) {
+        let button = document.createElement("button");
+        button.setAttribute("class", "characterButton");
+        button.setAttribute("style", ``);
+        button.innerHTML = characters[i];
+        buttonBox.append(button);
+      }
+      searchBoxContainer.append(searchBox);
+      searchBoxContainer.append(buttonBox);
+      image.append(searchBoxContainer);
     },
     removeSearchBox() {
-      let searchBox = document.querySelector(".searchBox");
+      let searchBoxContainer = document.querySelector(".searchBoxContainer");
       let image = document.querySelector(".img-container");
-      image.removeChild(searchBox)
+      image.removeChild(searchBoxContainer);
     }
   },
   created: function() {
