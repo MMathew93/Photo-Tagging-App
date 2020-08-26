@@ -11,11 +11,17 @@
       </router-link>
     </div>
     <div class="img-container">
-      <div class="foundCharacter"></div>
-      <div class="searchBoxContainer" :style="boxPosition">
-        <div class="box"></div>
-        <select>
-          <option v-for="option in options" :key="option.value">
+      <div class="foundCharacter" v-show="found"></div>
+      <div class="searchBoxContainer" :style="boxPosition" v-show="box">
+        <div
+          class="box"
+          :style="{
+            border: this.notFound ? '5px solid red' : '5px solid black'
+          }"
+        ></div>
+        <select @change="verifyPosition($event)" v-model="selected">
+          <option disabled value="">Who is it?</option>
+          <option v-for="option in options" v-bind:value="option" :key="option">
             {{ option }}
           </option>
         </select>
@@ -34,8 +40,11 @@
 export default {
   data() {
     return {
-      options: ["Who is it?", "Waldo", "Odlaw", "Wenda", "Wizard"],
-      selectedOption: "Who is it?",
+      options: ["Waldo", "Odlaw", "Wenda", "Wizard"],
+      selected: "",
+      box: false,
+      notFound: false,
+      found: false,
       imgLeft: null,
       imgTop: null,
       seconds: 0,
@@ -81,32 +90,39 @@ export default {
         }
       }
     },
-    verifyPosition() {
+    verifyPosition(event) {
       //Waldo coordinates: [ "2170px", "18px" ] [ "2212px", "57px" ]
       //let Wizard = [[824, 231], [894, 296]];
       //Wendy coordinates: [819, 578] [848, 605px]
       //odlaw coordinates: [ "2095px", "402px" ] [ "2131px", "443px" ]
       let mousePosition = [this.imgLeft, this.imgTop]; //864, 564, center of wizardish
+      this.selected = event.target.value;
       console.log(mousePosition[0]);
       console.log(mousePosition[1]);
       if (
-        mousePosition[0] > 830 &&
-        mousePosition[0] < 870 &&
+        mousePosition[0] > 790 &&
+        mousePosition[0] < 840 &&
         mousePosition[1] > 480 &&
         mousePosition[1] < 590
       ) {
-        if (this.selectedOption === "Wizard") {
+        if (this.selected === "Wizard") {
           alert("Success");
+          this.options = this.options.filter(x => x !== this.selected);
+          this.notFound = false;
+          this.box = false;
+          this.selected = "";
+        } else {
+          this.notFound = true;
+          this.selected = "";
         }
       }
     },
     searchBox(e) {
       //need to updated position of the searchBox on mouse click position
+      this.box = !false;
+      this.notFound = false;
       this.imgLeft = e.clientX - 50;
       this.imgTop = e.clientY - 50;
-      //watch for changes on dropdown and call the function
-      //this.selectedOption =  //update the selected option value
-      document.querySelector("select").onchange = this.verifyPosition;
     }
   },
   created: function() {
@@ -142,7 +158,6 @@ export default {
 .box {
   width: 100px;
   height: 100px;
-  border: 5px solid black;
 }
 
 select {
