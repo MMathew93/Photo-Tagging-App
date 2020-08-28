@@ -10,28 +10,34 @@
         Quit
       </router-link>
     </div>
-    <div class="img-container">
-      <div class="foundCharacter" v-show="found"></div>
-      <div class="searchBoxContainer" :style="boxPosition" v-show="box">
-        <div
-          class="box"
-          :style="{
-            border: this.notFound ? '5px solid red' : '5px solid black'
-          }"
-        ></div>
-        <select @change="verifyPosition($event)" v-model="selected">
-          <option disabled value="">Who is it?</option>
-          <option v-for="option in options" v-bind:value="option" :key="option">
-            {{ option }}
-          </option>
-        </select>
+    <div class="gameBoard">
+      <div class="img-container">
+        <div class="foundCharacter" v-show="found"></div>
+        <div class="searchBoxContainer" :style="boxPosition" v-show="box">
+          <div
+            class="box"
+            :style="{
+              border: this.notFound ? '5px solid red' : '5px solid black'
+            }"
+          ></div>
+          <select @change="verifyPosition($event)" v-model="selected">
+            <option disabled value="">Who is it?</option>
+            <option
+              v-for="option in options"
+              v-bind:value="option"
+              :key="option"
+            >
+              {{ option }}
+            </option>
+          </select>
+        </div>
+        <img
+          class="waldo-img"
+          src="../assets/84732656.jpg"
+          alt="Where is Waldo Page"
+          @click="searchBox"
+        />
       </div>
-      <img
-        class="waldo-img"
-        src="../assets/84732656.jpg"
-        alt="Where is Waldo Page"
-        @click="searchBox"
-      />
     </div>
   </div>
 </template>
@@ -91,11 +97,11 @@ export default {
       }
     },
     verifyPosition(event) {
-      //Waldo coordinates: [ "2170px", "18px" ] [ "2212px", "57px" ]
-      //let Wizard = [[824, 231], [894, 296]];
-      //Wendy coordinates: [819, 578] [848, 605px]
-      //odlaw coordinates: [ "2095px", "402px" ] [ "2131px", "443px" ]
-      let mousePosition = [this.imgLeft, this.imgTop]; //864, 564, center of wizardish
+      //Waldo coordinates: [ "2170px", "18px" ] [ "2212px", "57px" ]     center of 2146,62
+      //let Wizard = [[824, 231], [894, 296]]; //814, 513, center of wizardish
+      //Wendy coordinates: [819, 578] [848, 605px]   center of 788,833
+      //odlaw coordinates: [ "2095px", "402px" ] [ "2131px", "443px" ]     center of 2060, 725
+      let mousePosition = [this.imgLeft, this.imgTop]; //814, 513, center of wizardish
       this.selected = event.target.value;
       console.log(mousePosition[0]);
       console.log(mousePosition[1]);
@@ -121,11 +127,12 @@ export default {
       //need to updated position of the searchBox on mouse click position
       this.box = !false;
       this.notFound = false;
-      this.imgLeft = e.clientX - 50;
-      this.imgTop = e.clientY - 50;
+      let rect = e.target.getBoundingClientRect();
+      this.imgLeft = e.clientX - rect.left - 50;
+      this.imgTop = e.clientY - rect.top - 50;
     }
   },
-  created: function() {
+  mounted: function() {
     window.setInterval(this.stopWatch, 1000);
   }
 };
@@ -142,10 +149,15 @@ export default {
   justify-content: center;
 }
 
-.waldo-img {
-  max-width: 100%;
-  max-height: 100%;
-  height: auto;
+.gameBoard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-container {
+  position: relative;
 }
 
 .searchBoxContainer {
@@ -156,6 +168,7 @@ export default {
 }
 
 .box {
+  position: absolute;
   width: 100px;
   height: 100px;
 }
