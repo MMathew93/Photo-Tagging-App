@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import firebase from "firebase";
+const db = firebase.firestore();
 export default {
   data() {
     return {
@@ -97,15 +99,30 @@ export default {
       }
     },
     verifyPosition(event) {
-      //Waldo coordinates: [ "2170px", "18px" ] [ "2212px", "57px" ]     center of 2146,62
-      //let Wizard = [[824, 231], [894, 296]]; //814, 513, center of wizardish
-      //Wendy coordinates: [819, 578] [848, 605px]   center of 788,833
-      //odlaw coordinates: [ "2095px", "402px" ] [ "2131px", "443px" ]     center of 2060, 725
-      let mousePosition = [this.imgLeft, this.imgTop]; //814, 513, center of wizardish
+      //Waldo coordinates: 1875, 31 center
+      //let Wizard = //539, 489 center
+      //Wendy coordinates: 515, 806 center
+      //odlaw coordinates: 1786, 699 center
       this.selected = event.target.value;
-      console.log(mousePosition[0]);
-      console.log(mousePosition[1]);
-      if (
+      let charactersRef = db.collection("characterLocations");
+      charactersRef.get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          doc.data().characters.some(x => {
+            if (
+              x.name === this.selected.toLowerCase() && (x.x <= (this.imgLeft + 20) && x.x >= (this.imgLeft - 20)) && (x.y <= (this.imgTop + 20) && x.y >= (this.imgTop - 20))) {
+              alert("Success");
+              this.options = this.options.filter(x => x !== this.selected);
+              this.notFound = false;
+              this.box = false;
+              this.selected = "";
+            } else {
+              this.notFound = true;
+            }
+          });
+          this.selected = "";
+        });
+      });
+      /** if (
         mousePosition[0] > 790 &&
         mousePosition[0] < 840 &&
         mousePosition[1] > 480 &&
@@ -121,7 +138,7 @@ export default {
           this.notFound = true;
           this.selected = "";
         }
-      }
+      } */
     },
     searchBox(e) {
       //need to updated position of the searchBox on mouse click position
@@ -174,7 +191,13 @@ export default {
 }
 
 select {
+  position: absolute;
+  left: 110px;
   height: 20px;
+  background: black;
+  border: none;
+  color: white;
+  appearance: none;
 }
 
 .foundCharacter {

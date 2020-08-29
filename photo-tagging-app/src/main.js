@@ -13,8 +13,8 @@ const firebaseConfig = {
   appId: "1:107357266680:web:5605b980a497175b1a110d",
   measurementId: "G-1069RY7NQF"
 };
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+
+export default firebase.initializeApp(firebaseConfig);
 
 Vue.config.productionTip = false;
 
