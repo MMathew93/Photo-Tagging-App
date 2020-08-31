@@ -1,7 +1,7 @@
 <template>
   <div class="game">
     <div class="header">
-      <div class="timerDisplay">
+      <div class="timerDisplay" ref="score">
         {{ hoursTenths }}{{ hours }}:{{ minutesTenths }}{{ minutes }}:{{
           secondsTenths
         }}{{ seconds }}
@@ -11,8 +11,9 @@
       </router-link>
     </div>
     <div class="gameBoard">
+      <AddScore v-if="active" :score="this.score" />
       <div class="img-container">
-        <div class="foundCharacter" v-show="found"></div>
+        <div class="foundCharacter" v-if="found"></div>
         <div class="searchBoxContainer" :style="boxPosition" v-show="box">
           <div
             class="box"
@@ -22,11 +23,7 @@
           ></div>
           <select @change="verifyPosition($event)" v-model="selected">
             <option disabled value="">Who is it?</option>
-            <option
-              v-for="option in options"
-              v-bind:value="option"
-              :key="option"
-            >
+            <option v-for="option in options" :value="option" :key="option">
               {{ option }}
             </option>
           </select>
@@ -44,8 +41,12 @@
 
 <script>
 import firebase from "firebase";
+import AddScore from "@/components/AddScore.vue";
 const db = firebase.firestore();
 export default {
+  components: {
+    AddScore
+  },
   data() {
     return {
       options: ["Waldo", "Odlaw", "Wenda", "Wizard"],
@@ -61,7 +62,9 @@ export default {
       minutes: 0,
       hoursTenths: 0,
       hours: 0,
-      running: false
+      active: false,
+      interval: null,
+      score: null
     };
   },
   computed: {
@@ -99,22 +102,24 @@ export default {
       }
     },
     verifyPosition(event) {
-      //Waldo coordinates: 1875, 31 center
-      //let Wizard = //539, 489 center
-      //Wendy coordinates: 515, 806 center
-      //odlaw coordinates: 1786, 699 center
       this.selected = event.target.value;
       let charactersRef = db.collection("characterLocations");
       charactersRef.get().then(querySnapshot => {
         querySnapshot.forEach(doc => {
           doc.data().characters.some(x => {
             if (
-              x.name === this.selected.toLowerCase() && (x.x <= (this.imgLeft + 20) && x.x >= (this.imgLeft - 20)) && (x.y <= (this.imgTop + 20) && x.y >= (this.imgTop - 20))) {
-              alert("Success");
+              x.name === this.selected.toLowerCase() &&
+              x.x <= this.imgLeft + 20 &&
+              x.x >= this.imgLeft - 20 &&
+              x.y <= this.imgTop + 20 &&
+              x.y >= this.imgTop - 20
+            ) {
               this.options = this.options.filter(x => x !== this.selected);
               this.notFound = false;
               this.box = false;
               this.selected = "";
+              this.found = !false;
+              this.render;
             } else {
               this.notFound = true;
             }
@@ -122,23 +127,7 @@ export default {
           this.selected = "";
         });
       });
-      /** if (
-        mousePosition[0] > 790 &&
-        mousePosition[0] < 840 &&
-        mousePosition[1] > 480 &&
-        mousePosition[1] < 590
-      ) {
-        if (this.selected === "Wizard") {
-          alert("Success");
-          this.options = this.options.filter(x => x !== this.selected);
-          this.notFound = false;
-          this.box = false;
-          this.selected = "";
-        } else {
-          this.notFound = true;
-          this.selected = "";
-        }
-      } */
+      this.gameStatus();
     },
     searchBox(e) {
       //need to updated position of the searchBox on mouse click position
@@ -147,10 +136,29 @@ export default {
       let rect = e.target.getBoundingClientRect();
       this.imgLeft = e.clientX - rect.left - 50;
       this.imgTop = e.clientY - rect.top - 50;
+    },
+    gameStatus() {
+      if (this.options.length === 1) {
+        clearInterval(this.interval);
+        this.score = this.$refs.score.innerHTML;
+        this.active = !false;
+      }
     }
   },
   mounted: function() {
-    window.setInterval(this.stopWatch, 1000);
+    this.interval = window.setInterval(this.stopWatch, 1000);
+  },
+  render: function(createElement) {
+    return createElement("div", {
+      style: {
+        position: "absolute",
+        width: "100px",
+        height: "100px",
+        left: this.imgLeft + "px",
+        top: this.imgTop + "px",
+        border: "5px solid green"
+      }
+    });
   }
 };
 </script>
@@ -204,6 +212,8 @@ select {
   position: absolute;
   width: 100px;
   height: 100px;
+  left: var(--left-position);
+  top: var(--top-position);
   border: 5px solid green;
 }
 </style>
