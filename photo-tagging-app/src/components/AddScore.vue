@@ -24,8 +24,8 @@
 </template>
 
 <script>
-//import firebase from "firebase";
-//const db = firebase.firestore();
+import firebase from "firebase";
+const db = firebase.firestore();
 export default {
   name: "AddScore",
   props: ["score"],
@@ -37,21 +37,21 @@ export default {
   methods: {
     submitScore(e) {
       e.preventDefault();
-      console.log(this.score);
-      /**db.collection("hiscores")
+      db.collection("hiscores")
         .doc(this.playername)
         .set({
           name: this.playername,
-          score: 1 //set actual score prop
+          score: this.score
         })
         .then(function() {
           console.log("Document successfully written");
         })
         .catch(function(error) {
           console.log("Error writing document: ", error);
-        });*/
+        });
       this.playername = "";
       console.log("create collection and submit data to firebase");
+      this.$router.push("/Hi-Scores");
     }
   }
 };
