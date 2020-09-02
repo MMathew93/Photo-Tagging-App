@@ -12,6 +12,7 @@
             type="text"
             name="playername"
             v-model="playername"
+            maxlength="12"
             placeholder="Enter your name..."
           />
           <!--I want the time to be displayed here-->
@@ -38,9 +39,8 @@ export default {
     submitScore(e) {
       e.preventDefault();
       db.collection("hiscores")
-        .doc(this.playername)
-        .set({
-          name: this.playername,
+        .add({
+          name: this.playername || "Anonymous",
           score: this.score
         })
         .then(function() {

@@ -5,12 +5,22 @@
 </template>
 <script></script>
 <style>
-body, html {
+body,
+html {
   padding: 0;
   margin: 0;
   width: 100%;
   min-height: 100vh;
-  background: repeating-linear-gradient( 45deg, #f00, #f00 40px, #fff 10px, #fff 80px );
+  background: repeating-linear-gradient(
+    45deg,
+    #f00,
+    #f00 40px,
+    #fff 10px,
+    #fff 80px
+  );
+}
+* {
+  box-sizing: border-box;
 }
 
 #app {
@@ -19,6 +29,5 @@ body, html {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background: gray;
 }
 </style>

@@ -1,39 +1,41 @@
 <template>
   <div class="game">
-    <div class="header">
-      <div class="timerDisplay" ref="score">
-        {{ hoursTenths }}{{ hours }}:{{ minutesTenths }}{{ minutes }}:{{
-          secondsTenths
-        }}{{ seconds }}
-      </div>
-      <router-link to="/" tag="button">
-        Quit
-      </router-link>
-    </div>
-    <div class="gameBoard">
-      <AddScore v-if="active" :score="this.score" />
-      <div class="img-container">
-        <div class="foundCharacter" v-if="found"></div>
-        <div class="searchBoxContainer" :style="boxPosition" v-show="box">
-          <div
-            class="box"
-            :style="{
-              border: this.notFound ? '5px solid red' : '5px solid black'
-            }"
-          ></div>
-          <select @change="verifyPosition($event)" v-model="selected">
-            <option disabled value="">Who is it?</option>
-            <option v-for="option in options" :value="option" :key="option">
-              {{ option }}
-            </option>
-          </select>
+    <div class="gamecontainer">
+      <div class="header">
+        <div class="timerDisplay" ref="score">
+          {{ hoursTenths }}{{ hours }}:{{ minutesTenths }}{{ minutes }}:{{
+            secondsTenths
+          }}{{ seconds }}
         </div>
-        <img
-          class="waldo-img"
-          src="../assets/84732656.jpg"
-          alt="Where is Waldo Page"
-          @click="searchBox"
-        />
+        <router-link to="/" tag="button">
+          Quit
+        </router-link>
+      </div>
+      <div class="gameBoard">
+        <AddScore v-if="active" :score="this.score" />
+        <div class="img-container">
+          <div class="foundCharacter" v-if="found"></div>
+          <div class="searchBoxContainer" :style="boxPosition" v-show="box">
+            <div
+              class="box"
+              :style="{
+                border: this.notFound ? '5px solid red' : '5px solid black'
+              }"
+            ></div>
+            <select @change="verifyPosition($event)" v-model="selected">
+              <option disabled value="">Who is it?</option>
+              <option v-for="option in options" :value="option" :key="option">
+                {{ option }}
+              </option>
+            </select>
+          </div>
+          <img
+            class="waldo-img"
+            src="../assets/84732656.jpg"
+            alt="Where is Waldo Page"
+            @click="searchBox"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -136,6 +138,7 @@ export default {
       let rect = e.target.getBoundingClientRect();
       this.imgLeft = e.clientX - rect.left - 50;
       this.imgTop = e.clientY - rect.top - 50;
+      console.log(this.imgLeft, this.imgTop);
     },
     gameStatus() {
       if (this.options.length === 0) {
@@ -164,14 +167,39 @@ export default {
 </script>
 
 <style scoped>
+.game {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.gamecontainer {
+  margin: 10px;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .timerDisplay {
-  display: flex;
-  justify-content: center;
+  font-size: 50px;
+  color: white;
+  background: black;
+}
+
+button {
+  height: 57px;
+  border: none;
+  padding: 20px;
+  background: black;
+  color: white;
+}
+
+button:hover {
+  background: rgb(30, 30, 30);
 }
 
 .gameBoard {
@@ -183,6 +211,10 @@ export default {
 
 .img-container {
   position: relative;
+}
+
+img {
+  height: 1170px;
 }
 
 .searchBoxContainer {
@@ -200,7 +232,7 @@ export default {
 
 select {
   position: absolute;
-  left: 110px;
+  left: 100px;
   height: 20px;
   background: black;
   border: none;

@@ -1,5 +1,5 @@
 <template>
-  <div class="Home">
+  <div class="home">
     <div class="rules">
       <h1>
         Welcome to my App!
@@ -13,7 +13,7 @@
         <br />
         Have fun!
       </h1>
-      <div>
+      <div class="buttonBox">
         <router-link v-if="isOnLoginPage()" to="/Game" tag="button">
           Start Game
         </router-link>
@@ -35,4 +35,31 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.rules {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(41, 40, 40);
+  color: white;
+  border-radius: 9px;
+  padding: 10px 25px;
+}
+
+.buttonBox {
+  display: flex;
+  justify-content: space-between;
+  width: 18%;
+  height: 30px;
+  margin: 15px;
+}
+</style>

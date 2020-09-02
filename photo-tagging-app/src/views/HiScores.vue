@@ -1,25 +1,29 @@
 <template>
-  <div class="main">
-    <div class="header">
-      <div>
-        <router-link to="/" tag="button">
-          Back to Main Page
-        </router-link>
+  <div class="leaderboard">
+    <div class="leaderboardcontainer">
+      <div class="header">
+        <div>
+          <router-link to="/" tag="button">
+            Back to Main Page
+          </router-link>
+        </div>
       </div>
-    </div>
-    <div class="title">
-      <h1>HI-SCORES</h1>
-      <div id="line"></div>
-    </div>
-    <div id="playerContainer">
-      <ol>
-        <li class="hiscores" v-for="score in scores" :key="score[0]">
-          <div class="playerdata">
-            <div class="playername">{{ score[0] }}</div>
-            <div class="playerscore">{{ score[1] }}</div>
-          </div>
-        </li>
-      </ol>
+      <div class="hiscorecontainer">
+        <div class="title">
+          <h1>HI-SCORES</h1>
+          <div id="line"></div>
+        </div>
+        <div id="playerContainer">
+          <ol>
+            <li class="hiscores" v-for="score in scores" :key="score[0]">
+              <div class="playerdata">
+                <div class="playername">{{ score[0] }}</div>
+                <div class="playerscore">{{ score[1] }}</div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -49,14 +53,29 @@ export default {
 </script>
 
 <style>
-.main {
+.leaderboard {
   display: flex;
   flex-direction: column;
 }
 
+.leaderboardcontainer {
+  margin: 1%;
+}
+
 .header {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
+}
+
+.hiscorecontainer {
+  display: flex;
+  flex-direction: column;
+  margin: 0 33%;
+  padding: 50px;
+  min-width: 700px;
+  border-radius: 25px;
+  color: white;
+  background: rgba(41, 40, 40);
 }
 
 .title {
@@ -69,16 +88,8 @@ export default {
   background: black;
 }
 
-#playerContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 ol {
   font-size: 40px;
-  width: 20%;
 }
 
 .hiscores {
