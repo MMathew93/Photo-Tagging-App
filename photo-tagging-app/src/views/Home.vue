@@ -18,7 +18,7 @@
           Start Game
         </router-link>
         <router-link v-if="isOnLoginPage()" to="/Hi-Scores" tag="button">
-          HI-SCORES
+          Hi-Scores
         </router-link>
       </div>
     </div>

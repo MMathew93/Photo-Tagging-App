@@ -126,8 +126,8 @@ export default {
           });
           this.selected = "";
         });
+        this.gameStatus();
       });
-      this.gameStatus();
     },
     searchBox(e) {
       //need to updated position of the searchBox on mouse click position
@@ -138,7 +138,7 @@ export default {
       this.imgTop = e.clientY - rect.top - 50;
     },
     gameStatus() {
-      if (this.options.length === 1) {
+      if (this.options.length === 0) {
         clearInterval(this.interval);
         this.score = this.$refs.score.innerHTML;
         this.active = !false;
@@ -208,12 +208,12 @@ select {
   appearance: none;
 }
 
-.foundCharacter {
+/** .foundCharacter {
   position: absolute;
   width: 100px;
   height: 100px;
   left: var(--left-position);
   top: var(--top-position);
   border: 5px solid green;
-}
+}*/
 </style>
