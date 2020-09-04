@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <div class="rules">
+  <div class="hero center waldo">
+    <div class="content centerFlex">
       <h1>
         Welcome to my App!
         <br />
@@ -13,11 +13,21 @@
         <br />
         Have fun!
       </h1>
-      <div class="buttonBox">
-        <router-link v-if="isOnLoginPage()" to="/Game" tag="button">
+      <div class="content">
+        <router-link
+          class="is-primary"
+          v-if="isOnLoginPage()"
+          to="/Game"
+          tag="b-button"
+        >
           Start Game
         </router-link>
-        <router-link v-if="isOnLoginPage()" to="/Hi-Scores" tag="button">
+        <router-link
+          class="is-primary"
+          v-if="isOnLoginPage()"
+          to="/Hi-Scores"
+          tag="b-button"
+        >
           Hi-Scores
         </router-link>
       </div>
@@ -36,30 +46,33 @@ export default {
 </script>
 
 <style scoped>
-.home {
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
+.centerFlex {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  min-height: 100vh;
+  padding: 50px;
+  background: #f2dfd7;
 }
 
-.rules {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(41, 40, 40);
-  color: white;
-  border-radius: 9px;
-  padding: 10px 25px;
+.waldo {
+  border: 50px solid;
+  border-image: repeating-linear-gradient(
+      45deg,
+      #f00,
+      #f00 40px,
+      #fff 10px,
+      #fff 80px
+    )
+    50 round;
 }
 
-.buttonBox {
-  display: flex;
-  justify-content: space-between;
-  width: 18%;
-  height: 30px;
-  margin: 15px;
+.is-primary {
+  margin: 10px;
 }
 </style>

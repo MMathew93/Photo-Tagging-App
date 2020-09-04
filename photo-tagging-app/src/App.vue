@@ -5,22 +5,17 @@
 </template>
 <script></script>
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body,
 html {
   padding: 0;
   margin: 0;
   width: 100%;
   min-height: 100vh;
-  background: repeating-linear-gradient(
-    45deg,
-    #f00,
-    #f00 40px,
-    #fff 10px,
-    #fff 80px
-  );
-}
-* {
-  box-sizing: border-box;
+  background: #aa0000;
 }
 
 #app {
@@ -28,6 +23,10 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 </style>

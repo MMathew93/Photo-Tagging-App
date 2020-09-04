@@ -1,19 +1,19 @@
 <template>
-  <div class="leaderboard">
-    <div class="leaderboardcontainer">
+  <div class="container">
+    <div class="column">
       <div class="header">
         <div>
-          <router-link to="/" tag="button">
+          <router-link class="is-primary" to="/" tag="b-button">
             Back to Main Page
           </router-link>
         </div>
       </div>
-      <div class="hiscorecontainer">
+      <div class="content centerFlex waldo">
         <div class="title">
           <h1>HI-SCORES</h1>
           <div id="line"></div>
         </div>
-        <div id="playerContainer">
+        <div class="container fixed">
           <ol>
             <li class="hiscores" v-for="score in scores" :key="score[0]">
               <div class="playerdata">
@@ -53,29 +53,19 @@ export default {
 </script>
 
 <style>
-.leaderboard {
-  display: flex;
-  flex-direction: column;
-}
-
-.leaderboardcontainer {
-  margin: 1%;
+.container {
+  max-width: none;
+  margin: none;
 }
 
 .header {
   display: flex;
   justify-content: flex-end;
+  margin: 10px;
 }
 
-.hiscorecontainer {
-  display: flex;
-  flex-direction: column;
-  margin: 0 33%;
-  padding: 50px;
-  min-width: 700px;
-  border-radius: 25px;
-  color: white;
-  background: rgba(41, 40, 40);
+.column {
+  min-width: 800px;
 }
 
 .title {
@@ -88,7 +78,29 @@ export default {
   background: black;
 }
 
-ol {
+.centerFlex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  background: #f2dfd7;
+}
+
+.waldo {
+  border: 50px solid;
+  border-image: repeating-linear-gradient(
+      45deg,
+      #f00,
+      #f00 40px,
+      #fff 10px,
+      #fff 80px
+    )
+    50 round;
+}
+
+.fixed {
+  min-width: 700px;
   font-size: 40px;
 }
 
@@ -99,12 +111,5 @@ ol {
 .playerdata {
   display: flex;
   justify-content: space-between;
-}
-
-.playername {
-  font-size: 40px;
-}
-.playerscore {
-  font-size: 40px;
 }
 </style>

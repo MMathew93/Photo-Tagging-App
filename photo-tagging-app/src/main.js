@@ -2,6 +2,10 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import firebase from "firebase";
+import Buefy from "buefy";
+import "buefy/dist/buefy.css";
+
+Vue.use(Buefy);
 
 const firebaseConfig = {
   apiKey: "AIzaSyBlPHfOFsORr7nvG6ItGdVXInHM-cF5W24",

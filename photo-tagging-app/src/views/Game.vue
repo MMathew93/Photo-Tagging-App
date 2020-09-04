@@ -1,41 +1,44 @@
 <template>
-  <div class="game">
-    <div class="gamecontainer">
-      <div class="header">
-        <div class="timerDisplay" ref="score">
-          {{ hoursTenths }}{{ hours }}:{{ minutesTenths }}{{ minutes }}:{{
-            secondsTenths
-          }}{{ seconds }}
-        </div>
-        <router-link to="/" tag="button">
-          Quit
-        </router-link>
+  <div class="container">
+    <div class="hero">
+      <div class="timerDisplay" ref="score">
+        {{ hoursTenths }}{{ hours }}:{{ minutesTenths }}{{ minutes }}:{{
+          secondsTenths
+        }}{{ seconds }}
       </div>
-      <div class="gameBoard">
-        <AddScore v-if="active" :score="this.score" />
-        <div class="img-container">
-          <div class="foundCharacter" v-if="found"></div>
-          <div class="searchBoxContainer" :style="boxPosition" v-show="box">
-            <div
-              class="box"
-              :style="{
-                border: this.notFound ? '5px solid red' : '5px solid black'
-              }"
-            ></div>
-            <select @change="verifyPosition($event)" v-model="selected">
-              <option disabled value="">Who is it?</option>
-              <option v-for="option in options" :value="option" :key="option">
-                {{ option }}
-              </option>
-            </select>
-          </div>
-          <img
-            class="waldo-img"
-            src="../assets/84732656.jpg"
-            alt="Where is Waldo Page"
-            @click="searchBox"
-          />
+      <img
+        class="findThem"
+        src="../assets/toppng.com-travel-the-world-playing-wheres-waldo-wheres-wally-and-friends-699x182.png"
+        alt="Who needs to be found"
+      />
+      <router-link class="is-primary" to="/" tag="b-button">
+        Quit
+      </router-link>
+    </div>
+    <div class="gameBoard">
+      <AddScore v-if="active" :score="this.score" />
+      <div class="img-container waldo">
+        <div class="foundCharacter" v-if="found"></div>
+        <div class="searchBoxContainer" :style="boxPosition" v-show="box">
+          <div
+            class="square"
+            :style="{
+              border: this.notFound ? '5px solid red' : '5px solid black'
+            }"
+          ></div>
+          <select @change="verifyPosition($event)" v-model="selected">
+            <option disabled value="">Who is it?</option>
+            <option v-for="option in options" :value="option" :key="option">
+              {{ option }}
+            </option>
+          </select>
         </div>
+        <img
+          class="waldo-img"
+          src="../assets/84732656.jpg"
+          alt="Where is Waldo Page"
+          @click="searchBox"
+        />
       </div>
     </div>
   </div>
@@ -167,39 +170,24 @@ export default {
 </script>
 
 <style scoped>
-.game {
+.container {
+  max-width: none;
+}
+
+.hero {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
-.gamecontainer {
-  margin: 10px;
-}
-
-.header {
+.hero {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
   align-items: center;
 }
 
 .timerDisplay {
   font-size: 50px;
   color: white;
-  background: black;
-}
-
-button {
-  height: 57px;
-  border: none;
-  padding: 20px;
-  background: black;
-  color: white;
-}
-
-button:hover {
-  background: rgb(30, 30, 30);
 }
 
 .gameBoard {
@@ -213,8 +201,26 @@ button:hover {
   position: relative;
 }
 
-img {
-  height: 1170px;
+.waldo-img {
+  min-width: 100%;
+  max-width: none;
+}
+
+.waldo {
+  border: 25px solid;
+  border-image: repeating-linear-gradient(
+      45deg,
+      #f00,
+      #f00 40px,
+      #fff 10px,
+      #fff 80px
+    )
+    10 round;
+}
+
+.findThem {
+  height: 100px;
+  width: 350px;
 }
 
 .searchBoxContainer {
@@ -224,7 +230,7 @@ img {
   top: var(--top-position);
 }
 
-.box {
+.square {
   position: absolute;
   width: 100px;
   height: 100px;
@@ -239,13 +245,4 @@ select {
   color: white;
   appearance: none;
 }
-
-/** .foundCharacter {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  left: var(--left-position);
-  top: var(--top-position);
-  border: 5px solid green;
-}*/
 </style>
