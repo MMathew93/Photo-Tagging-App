@@ -13,7 +13,12 @@ Javascript
 
 
 ## Hosted Demo
-[Hosted on Firebase](https://where-s-waldo-cf908.web.app/#/)!
+[Hosted on Firebase](https://where-s-waldo-cf908.web.app/#/)!  
+
+
+## Demo
+![](whereswaldo_demo.gif)
+
 
 ## Project setup
 ```
